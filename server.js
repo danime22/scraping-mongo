@@ -15,9 +15,9 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var MONGODB_URI = process.env.MONGODB_URI;
+var uri = process.env.MONGODB_URI || process.env.MONGOHQ_URL || process.env.MONGOLAB_URI;
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(uri);
 
 
 app.use(express.static("public"));
