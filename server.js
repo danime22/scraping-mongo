@@ -22,7 +22,7 @@ mongoose.connect(MONGODB_URI);
 
 app.use(express.static("public"));
 
-var PORT = 3019;
+var PORT = 3019 || process.env.PORT;
 
 var databaseUrl = "huffingpostdb";
 var collections = ["news"];
