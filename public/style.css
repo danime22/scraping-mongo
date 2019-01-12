@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville');
+
+body {
+    margin: 0;
+    padding: 0;
+   background-image: url("/image/maxresdefault-1024x576.jpg");
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+ 
+
+}
+
+.jumbotron {
+    background-image: url("/image/82280.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+form {
+    display: none;
+   margin: auto;
+}
+
+img {
+    border-radius: 20px;
+
+
+}
+
+.card {
+border-style: none;
+/* margin-top: -51px; */
+}
+
+#logo {
+    text-align: center;
+    font-family: 'Abril Fatface', cursive;
+    color: #C81B1B;
+    letter-spacing: 3px;
+}
+
+#article-image {
+    text-align: center;
+}
+
+#article-headline {
+    text-align: center;
+}
+
+.card{
+    text-align: center;
+    background-image: linear-gradient(to right, #60D868 , #8BCF97, #1EBB28);
+}
+
+.card-div {
+    vertical-align: top;
+    display: inline-block;
+    padding: 15px;
+    width: 350px;
+    height: 450px;
+    border-radius: 5px;
+    box-shadow: 5px 7px ;
+    margin: 5px;
+    margin-left: 12px;
+}
+
+.title-text {
+    color: blue;
+    font-weight: bold;
+}
+
+.summary-text {
+    color: #801515;
+    margin-top: 15px;
+}
+
+.article-author {
+    font-size: 13px;
+    color: red;
+}
+
+p {
+    font-weight: bold;
+    font-family: 'Libre Baskerville', serif;
+}
+
+h5 {
+    color: white;
+    text-align: center;
+}
+
+.comment-button {
+    background-color: #D46A6A;
+    border-radius: 50px;
+    color: white;
+    height: 30px;
+    font-size: 15px;
+}
+
+
+#back-button {
+    margin-left: 100px;
+    color:red;
+
+}
+
+.comment-row {
+    border: 1px solid red;
+    color: white;
+    margin: auto;
+}
+
+#comment-section {
+    text-align: center;
+}
+
+footer{
+    background-color:#666666;
+    padding: 10px;
+    border-top: 5px solid #4aaaa5;
+    text-align: center;
+    color: white;
+    clear:both;
+    position: relative;
+}
+
+.row {
+    background-color: blue;
+}
