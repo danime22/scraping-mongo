@@ -17,6 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
+console.log(MONGODB_URI);
+
 mongoose.connect(MONGODB_URI);
 
 
@@ -25,6 +27,8 @@ var PORT = process.env.PORT || 3019;
 
 var databaseUrl = process.env.DB_URL || "huffingpostdb";
 var collections = ["news"];
+
+console.log(databaseUrl);
 
 var db = mongojs(databaseUrl, collections);
 db.on("error", (err) => {
