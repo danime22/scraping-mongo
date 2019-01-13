@@ -21,10 +21,9 @@ mongoose.connect(MONGODB_URI);
 
 
 app.use(express.static("public"));
-
 var PORT = process.env.PORT || 3019;
 
-var databaseUrl = "huffingpostdb";
+var databaseUrl = process.env.DB_URL || "huffingpostdb";
 var collections = ["news"];
 
 var db = mongojs(databaseUrl, collections);
@@ -271,3 +270,5 @@ app.get("/delete/:id/:index", (req, res) => {
 app.listen(PORT, function () {
     console.log(PORT);
 });
+
+mongodb://admin:P@ssword123@ds139619.mlab.com:39619/heroku_gtpsjm3p
