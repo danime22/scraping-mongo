@@ -271,4 +271,3 @@ app.listen(PORT, function () {
     console.log(PORT);
 });
 
-mongodb://admin:P@ssword123@ds139619.mlab.com:39619/heroku_gtpsjm3p
