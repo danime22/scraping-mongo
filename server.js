@@ -17,9 +17,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-console.log(MONGODB_URI);
+console.log("MONGODB_URI="+MONGODB_URI);
 
-mongoose.connect("MONGODB_URI=" + MONGODB_URI);
+mongoose.connect(MONGODB_URI);
 
 
 app.use(express.static("public"));
