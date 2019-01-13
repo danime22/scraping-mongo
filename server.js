@@ -32,7 +32,7 @@ console.log("databaseUrl=" + databaseUrl);
 
 var db = mongojs(databaseUrl, collections);
 db.on("error", (err) => {
-    console.log("database error", err)
+    console.log("database error: " + err)
 });
 
 app.get("/", (req, res) => {
