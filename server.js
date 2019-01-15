@@ -15,12 +15,24 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var dbURI = "mongodb://localhost/mongoHeadlines";
 
-console.log("MONGODB_URI="+MONGODB_URI);
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI)
+} else {
+    // console.log("MONGODB_URI="+MONGODB_URI);
+    mongoose.connect(dbURI);
+}
 
-mongoose.connect(MONGODB_URI);
+var db = mongoose.connection;
 
+db.on("error", function(err){
+    console.log("Mongoose Error: ", err);
+})
+
+db.once("open", function(){
+    console.log("Mongoose connection successful");
+});
 
 app.use(express.static("public"));
 var PORT = process.env.PORT || 3019;
@@ -269,6 +281,7 @@ app.get("/delete/:id/:index", (req, res) => {
     )
 })
 
+// mongoose.connect('mongodb://user:password@sample.com:port/dbname', { useNewUrlParser: true })
 
 
 app.listen(PORT, function () {
