@@ -16,13 +16,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var dbURI = "mongodb://localhost/mongoHeadlines";
-
-if (process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI)
-} else {
-    // console.log("MONGODB_URI="+MONGODB_URI);
-    mongoose.connect(dbURI);
-}
+// console.log(process.env.MONGODB_URI);
+// if (process.env.MONGODB_URI) {
+    mongoose.connect("mongodb://heroku_g8j3plbf:8i7btepunr9ur8l593tmul2pk5@ds157574.mlab.com:57574/heroku_g8j3plbf")
+// } else {
+//     // console.log("MONGODB_URI="+MONGODB_URI);
+//     mongoose.connect(dbURI);
+// }
 
 var db = mongoose.connection;
 
