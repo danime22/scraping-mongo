@@ -37,15 +37,15 @@ db.once("open", function(){
 app.use(express.static("public"));
 var PORT = process.env.PORT || 3019;
 
-var databaseUrl = process.env.DB_URL || "huffingpostdb";
+//var databaseUrl = process.env.DB_URL || "huffingpostdb";
 var collections = ["news"];
 
-console.log("databaseUrl=" + databaseUrl);
+// console.log("databaseUrl=" + databaseUrl);
 
-var db = mongojs(databaseUrl, collections);
-db.on("error", (err) => {
-    console.log("database error: " + err)
-});
+// var db = mongojs(process.env.MONGODB_URI, collections);
+// db.on("error", (err) => {
+//     console.log("database error: " + err)
+// });
 
 app.get("/", (req, res) => {
 
