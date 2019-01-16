@@ -1,13 +1,16 @@
 
 var express = require("express");
-var mongojs = require("mongojs");
 var axios = require("axios");
 var cheerio = require("cheerio");
-var db = require("./models");
 var bodyParser = require("body-parser");
-var app = express();
 var exphbs = require("express-handlebars");
 var mongoose = require("mongoose");
+
+var db = require("./models");
+
+var PORT = process.env.PORT || 3019;
+
+var app = express();
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
@@ -15,30 +18,29 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var dbURI = "mongodb://localhost/mongoHeadlines";
+// var dbURI = "mongodb://localhost/mongoHeadlines";
 // console.log(process.env.MONGODB_URI);
 // if (process.env.MONGODB_URI) {
-    mongoose.connect("mongodb://heroku_g8j3plbf:8i7btepunr9ur8l593tmul2pk5@ds157574.mlab.com:57574/heroku_g8j3plbf")
+mongoose.connect("mongodb://heroku_g8j3plbf:8i7btepunr9ur8l593tmul2pk5@ds157574.mlab.com:57574/heroku_g8j3plbf")
 // } else {
 //     // console.log("MONGODB_URI="+MONGODB_URI);
 //     mongoose.connect(dbURI);
 // }
 
-var db = mongoose.connection;
+// var db = mongoose.connection;
 
-db.on("error", function(err){
-    console.log("Mongoose Error: ", err);
-})
+// db.on("error", function(err){
+//     console.log("Mongoose Error: ", err);
+// })
 
-db.once("open", function(){
-    console.log("Mongoose connection successful");
-});
+// db.once("open", function(){
+//     console.log("Mongoose connection successful");
+// });
 
 app.use(express.static("public"));
-var PORT = process.env.PORT || 3019;
 
 //var databaseUrl = process.env.DB_URL || "huffingpostdb";
-var collections = ["news"];
+// var collections = ["news"];
 
 // console.log("databaseUrl=" + databaseUrl);
 
