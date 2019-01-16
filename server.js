@@ -7,6 +7,7 @@ var exphbs = require("express-handlebars");
 var mongoose = require("mongoose");
 
 var db = require("./models");
+// console.log(db);
 
 var PORT = process.env.PORT || 3019;
 
@@ -18,14 +19,14 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// var dbURI = "mongodb://localhost/mongoHeadlines";
+var dbURI = "mongodb://localhost/mongoHeadlines";
 // console.log(process.env.MONGODB_URI);
-// if (process.env.MONGODB_URI) {
-mongoose.connect("mongodb://heroku_g8j3plbf:8i7btepunr9ur8l593tmul2pk5@ds157574.mlab.com:57574/heroku_g8j3plbf")
-// } else {
-//     // console.log("MONGODB_URI="+MONGODB_URI);
-//     mongoose.connect(dbURI);
-// }
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI)
+} else {
+    // console.log("MONGODB_URI="+MONGODB_URI);
+    mongoose.connect(dbURI);
+}
 
 // var db = mongoose.connection;
 
@@ -103,37 +104,49 @@ app.get("/", (req, res) => {
             var newLink = "http://huffingtonpost.com" + link;
 
             if (title && summary && image && author && newLink) {
-                db.News.insert({
+                db.News.create({
                     title: title,
                     summary: summary,
                     image: image,
                     author: author,
                     link: newLink,
                     comments: []
-                }),
+                }).then(function (inserted) {
+                    console.log(inserted);
+                }).catch(function (error) {
+                    console.log(error);
+                })
 
-                    (err, inserted) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(inserted);
-                        }
-                    }
             }
 
-        });
-
-        db.News.find({}, (error, found) => {
-            if (error) {
-                console.log(error);
-            } else {
-                res.render("index", { articles: found });
-            }
         });
 
     })
+})
 
-});
+db.News.find({}, (error, found) => {
+    if (error) {
+        console.log(error);
+    } else {
+        res.render("index", { articles: found });
+    }
+}).then(function (inserted) {
+    console.log(inserted);
+}).catch(function (error) {
+    console.log(error);
+})
+
+db.News.find({})
+.then(function(inserted) {
+console.log(inserted);
+})
+.catch(function(error){
+console.log(error)
+})
+
+
+
+// });
 
 
 app.get("/comments/:id", (req, res) => {
@@ -156,7 +169,11 @@ app.get("/comments/:id", (req, res) => {
 
             }
         }
-    )
+    ).then(function (inserted) {
+        console.log(inserted);
+    }).catch(function (inserted) {
+        console.log(inserted);
+    })
 });
 
 
@@ -188,100 +205,104 @@ app.post("/add/:id", (req, res) => {
 
                         }
                     }
-                )
+                ).then(function(inserted){
+                    console.log(inserted);
+                }).catch(function(inserted){
+
+                })
             }
         });
 
 });
 
 
-app.post("/updateComment/:id/:index", (req, res) => {
-    console.log("updaing comment: " + JSON.stringify(req.body));
+// app.post("/updateComment/:id/:index", (req, res) => {
+//     console.log("updaing comment: " + JSON.stringify(req.body));
 
-    db.News.findOne(
-        {
-            _id: mongojs.ObjectId(req.params.id)
-        },
-        (error, found) => {
+//     db.News.findOne(
+//         {
+//             _id: mongojs.ObjectId(req.params.id)
+//         },
+//         (error, found) => {
 
-            if (error) {
-                console.log(error);
-                res.send(error);
-            }
-            else {
-                found.comments[parseInt(req.params.index)] = req.body;
+//             if (error) {
+//                 console.log(error);
+//                 res.send(error);
+//             }
+//             else {
+//                 found.comments[parseInt(req.params.index)] = req.body;
 
-                console.log(JSON.stringify(found));
+//                 console.log(JSON.stringify(found));
 
-                db.News.update({_id: mongojs.ObjectId(req.params.id)}, found, (error, records, status) => {
-                    if(error) {
-                        console.log(error);
-                        res.send(error);
-                    }
-                    else {
-                        res.render("comments", { article: found });
-                    }
-                });
-
-                
-            }
-        }
-    )
-});
+//                 db.News.update({_id: mongojs.ObjectId(req.params.id)}, found, (error, records, status) => {
+//                     if(error) {
+//                         console.log(error);
+//                         res.send(error);
+//                     }
+//                     else {
+//                         res.render("comments", { article: found });
+//                     }
+//                 });
 
 
-app.get("/GetCommentforUpdate/:id/:index", (req, res) => {
-    db.News.findOne(
-        {
-            _id: mongojs.ObjectId(req.params.id)
-        },
-        (error, found) => {
-
-            if (error) {
-                console.log(error);
-                res.send(error);
-            }
-            else {
-                found["editComment"] = found.comments[req.params.index];
-                found["editIndex"] = req.params.index;
-                res.render("comments", { article: found });
-            }
-        }
-    )
-});
+//             }
+//         }
+//     )
+// });
 
 
-app.get("/delete/:id/:index", (req, res) => {
-    db.News.findOne(
-        {
-            _id: mongojs.ObjectId(req.params.id)
-        },
-        (error, found) => {
+// app.get("/GetCommentforUpdate/:id/:index", (req, res) => {
+//     db.News.findOne(
+//         {
+//             _id: mongojs.ObjectId(req.params.id)
+//         },
+//         (error, found) => {
 
-            if (error) {
-                console.log(error);
-                res.send(error);
-            }
-            else {
-                found.comments.splice(parseInt(req.params.index), 1);
+//             if (error) {
+//                 console.log(error);
+//                 res.send(error);
+//             }
+//             else {
+//                 found["editComment"] = found.comments[req.params.index];
+//                 found["editIndex"] = req.params.index;
+//                 res.render("comments", { article: found });
+//             }
+//         }
+//     )
+// });
 
-                console.log(JSON.stringify(found));
 
-                db.News.update({_id: mongojs.ObjectId(req.params.id)}, found, (error, records, status) => {
-                    if(error) {
-                        console.log(error);
-                        res.send(error);
-                    }
-                    else {
-                        res.render("comments", { article: found });
-                    }
-                });
+// app.get("/delete/:id/:index", (req, res) => {
+//     db.News.findOne(
+//         {
+//             _id: mongojs.ObjectId(req.params.id)
+//         },
+//         (error, found) => {
 
-                
-            }
-        }
-    )
-})
+//             if (error) {
+//                 console.log(error);
+//                 res.send(error);
+//             }
+//             else {
+//                 found.comments.splice(parseInt(req.params.index), 1);
+
+//                 console.log(JSON.stringify(found));
+
+//                 db.News.update({_id: mongojs.ObjectId(req.params.id)}, found, (error, records, status) => {
+//                     if(error) {
+//                         console.log(error);
+//                         res.send(error);
+//                     }
+//                     else {
+//                         res.render("comments", { article: found });
+//                     }
+//                 });
+
+
+//             }
+//         }
+//     )
+// })
 
 // mongoose.connect('mongodb://user:password@sample.com:port/dbname', { useNewUrlParser: true })
 
