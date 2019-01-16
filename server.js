@@ -103,7 +103,7 @@ app.get("/", (req, res) => {
             var newLink = "http://huffingtonpost.com" + link;
 
             if (title && summary && image && author && newLink) {
-                db.news.insert({
+                db.News.insert({
                     title: title,
                     summary: summary,
                     image: image,
@@ -123,7 +123,7 @@ app.get("/", (req, res) => {
 
         });
 
-        db.news.find({}, (error, found) => {
+        db.News.find({}, (error, found) => {
             if (error) {
                 console.log(error);
             } else {
@@ -140,7 +140,7 @@ app.get("/comments/:id", (req, res) => {
 
     console.log(req.params.id);
 
-    db.news.findOne(
+    db.News.findOne(
         {
             _id: mongojs.ObjectId(req.params.id)
         },
@@ -165,14 +165,14 @@ app.post("/add/:id", (req, res) => {
 
     // console.log(req.body);
 
-    db.news.update(
+    db.News.update(
         { _id: mongojs.ObjectId(req.params.id) },
         { $push: { comments: req.body } },
         function (error, found) {
             if (error) {
                 console.log(error);
             } else {
-                db.news.findOne(
+                db.News.findOne(
                     {
                         _id: mongojs.ObjectId(req.params.id)
                     },
@@ -198,7 +198,7 @@ app.post("/add/:id", (req, res) => {
 app.post("/updateComment/:id/:index", (req, res) => {
     console.log("updaing comment: " + JSON.stringify(req.body));
 
-    db.news.findOne(
+    db.News.findOne(
         {
             _id: mongojs.ObjectId(req.params.id)
         },
@@ -213,7 +213,7 @@ app.post("/updateComment/:id/:index", (req, res) => {
 
                 console.log(JSON.stringify(found));
 
-                db.news.update({_id: mongojs.ObjectId(req.params.id)}, found, (error, records, status) => {
+                db.News.update({_id: mongojs.ObjectId(req.params.id)}, found, (error, records, status) => {
                     if(error) {
                         console.log(error);
                         res.send(error);
@@ -231,7 +231,7 @@ app.post("/updateComment/:id/:index", (req, res) => {
 
 
 app.get("/GetCommentforUpdate/:id/:index", (req, res) => {
-    db.news.findOne(
+    db.News.findOne(
         {
             _id: mongojs.ObjectId(req.params.id)
         },
@@ -252,7 +252,7 @@ app.get("/GetCommentforUpdate/:id/:index", (req, res) => {
 
 
 app.get("/delete/:id/:index", (req, res) => {
-    db.news.findOne(
+    db.News.findOne(
         {
             _id: mongojs.ObjectId(req.params.id)
         },
@@ -267,7 +267,7 @@ app.get("/delete/:id/:index", (req, res) => {
 
                 console.log(JSON.stringify(found));
 
-                db.news.update({_id: mongojs.ObjectId(req.params.id)}, found, (error, records, status) => {
+                db.News.update({_id: mongojs.ObjectId(req.params.id)}, found, (error, records, status) => {
                     if(error) {
                         console.log(error);
                         res.send(error);
